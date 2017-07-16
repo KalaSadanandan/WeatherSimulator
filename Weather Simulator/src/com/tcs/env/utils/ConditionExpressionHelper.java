@@ -1,10 +1,8 @@
 package com.tcs.env.utils;
 
-import org.apache.log4j.Logger;
 
 public class ConditionExpressionHelper {
-	static Logger LOGGER = Logger.getLogger(ConditionExpressionHelper.class
-			.getName());
+	
 	private static ConditionExpressionHelper conditionExpression = new ConditionExpressionHelper();
 
 	/*
@@ -46,7 +44,6 @@ public class ConditionExpressionHelper {
 		else
 			condition = "SNOW";
 
-		LOGGER.info("Condition ::"+condition);
 		return condition;
 
 	}

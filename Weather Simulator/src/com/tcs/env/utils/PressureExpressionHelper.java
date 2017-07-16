@@ -1,11 +1,8 @@
 package com.tcs.env.utils;
 
-import org.apache.log4j.Logger;
 
 public class PressureExpressionHelper {
 
-	static Logger LOGGER = Logger.getLogger(PressureExpressionHelper.class
-			.getName());
 	private static PressureExpressionHelper pressureExpression = new PressureExpressionHelper();
 
 	// static pressure (pressure at sea level) [hPa]
@@ -64,7 +61,6 @@ public class PressureExpressionHelper {
 		Double pressure = Pb
 				* (1 + (Lb * elevation) / (temp + (Lb * elevation) + Tb));
 
-		// LOGGER.info("Pressure :: {}",pressure);
 		return pressure;
 
 	}

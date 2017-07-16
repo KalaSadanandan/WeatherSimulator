@@ -67,7 +67,6 @@ public class TempExpressionHelper {
 		if (temperature < -50)
 			temperature = -50.00;
 
-		LOGGER.info("Temperature :: " + temperature);
 		return temperature;
 
 	}
@@ -94,6 +93,7 @@ public class TempExpressionHelper {
 			cal.setTime(d);
 		} catch (ParseException e) {
 			e.printStackTrace();
+
 		}
 
 		Double temperature = 0.0;
@@ -139,7 +139,6 @@ public class TempExpressionHelper {
 
 		}
 
-		LOGGER.info("Temperature Factor with respect to time :: " + temperature);
 		return temperature;
 
 	}

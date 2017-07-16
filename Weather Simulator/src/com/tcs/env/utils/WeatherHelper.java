@@ -12,6 +12,7 @@ import java.util.regex.Pattern;
 import org.apache.log4j.Logger;
 
 import com.tcs.env.constants.WeatherConstants;
+import com.tcs.env.model.WeatherInfo;
 
 public class WeatherHelper {
 
@@ -38,35 +39,32 @@ public class WeatherHelper {
 	}
 
 	/**
-	 * Get atmospheric temperature according the latitude, altitude and time.
+	 * Read input file line by line and calculate the temperature, pressure,
+	 * humidity and condition based on input parameters and print it to the
+	 * console in pipe separated format.
 	 *
-	 * @param latitude
-	 * @param elevation
-	 * @param timeStamp
-	 * 
-	 * @return temperature
-	 * @throws FileNotFoundException
+	 * @param inputFile
+	 * @throws Exception
 	 */
-	public void getWeatherInfo(String inputFile) throws FileNotFoundException {
+	public void getWeatherInfo(String inputFile) throws Exception {
 		// Read input File and for each row calcualte
-		// temperature,Pressure,Humidy and Condition using algorithm.
+		// temperature,Pressure,Humidity and Condition using algorithm.
 
-		BufferedReader br = new BufferedReader(new FileReader(inputFile)); //
+		BufferedReader br = new BufferedReader(new FileReader(inputFile));
 
-		Map<String, String> sortedMap = new TreeMap<String, String>();
+		Map<String, WeatherInfo> sortedMap = new TreeMap<String, WeatherInfo>();
 		String line = null;
 		try {
 			while ((line = br.readLine()) != null) {
-				LOGGER.info("INPUT LINE IS: " + line.toString());
 
-				if(line != null && !line.isEmpty()) {
+				if (line != null && !line.isEmpty()) {
 					String[] lineData = line.split(Pattern
 							.quote(WeatherConstants.COMMA));
 
 					if (lineData.length == 6) {
 
 						// process the line.
-
+						WeatherInfo weatherInfo = new WeatherInfo();
 						try {
 
 							/* Work Station Name from input File. */
@@ -104,18 +102,20 @@ public class WeatherHelper {
 									.getInstance().getTimeInISO8601Format(
 											timeStamp);
 
-							String weatherInfo = saveWeatherInfo(location,
-									temp, pressure, humidity, condition,
-									timeInISO8601, latitude, longitude,
-									altitude);
+							weatherInfo.setData(location, temp, pressure,
+									humidity, condition, timeInISO8601,
+									latitude, longitude, altitude,
+									timeInISO8601);
 
 							// Put the results inside a map
 							sortedMap
 									.put(location + timeInISO8601, weatherInfo);
 
 						} catch (Exception e) {
-							System.out.println("Exception occured: "
-									+ e.getMessage());
+							LOGGER.info("Exception Occurred while processing line "
+									+ line);
+							LOGGER.info(e.getMessage());
+							throw new Exception(e);
 						}
 
 					} else
@@ -127,46 +127,11 @@ public class WeatherHelper {
 			printWeatherInfo(sortedMap);
 
 		} catch (IOException e) { // TODO Auto-generated catch block
-			e.printStackTrace();
+			LOGGER.info("Exception Occurred while processing line " + line);
+			LOGGER.info(e.getMessage());
+			throw new Exception(e);
 		}
 
-	}
-
-	/**
-	 * Method for saving the weather information in the mentioned format
-	 * LOCATION|latitude,longitude,altitude|time in
-	 * ISO8601|contion|pressure|humidity.
-	 *
-	 * @param location
-	 * @param temperature
-	 * @param pressure
-	 * @param humidity
-	 * @param condition
-	 * @param timeStamp
-	 * @param latitude
-	 * @param longitude
-	 * @param altitude
-	 * @return cmd
-	 * 
-	 */
-	public String saveWeatherInfo(String location, Double temp,
-			Double pressure, Double humidity, String condition,
-			String timeStamp, Double latitude, Double longitude, Double altitude) {
-		StringBuilder cmd = new StringBuilder();
-		cmd.append(location).append(WeatherConstants.PIPE).append(latitude)
-				.append(WeatherConstants.COMMA).append(longitude)
-				.append(WeatherConstants.COMMA).append(altitude)
-				.append(WeatherConstants.PIPE).append(timeStamp)
-				.append(WeatherConstants.PIPE).append(condition)
-				.append(WeatherConstants.PIPE)
-				.append(Math.round(temp * 100) / 100)
-				.append(WeatherConstants.PIPE)
-				.append(Math.round(pressure * 100) / 100)
-				.append(WeatherConstants.PIPE)
-				.append(Math.round(humidity * 100) / 100);
-
-		LOGGER.info("Weather Info::" + cmd.toString());
-		return cmd.toString();
 	}
 
 	public void DisplayUsage() {
@@ -190,11 +155,24 @@ public class WeatherHelper {
 	 * LOCATION|latitude,longitude,altitude|time in
 	 * ISO8601|contion|pressure|humidity.
 	 */
-	public void printWeatherInfo(Map<String, String> sortedMap) {
-		for (Entry<String, String> entry : sortedMap.entrySet()) {
-			System.out.println(entry.getValue());
+	public void printWeatherInfo(Map<String, WeatherInfo> sortedMap) {
+		for (Entry<String, WeatherInfo> entry : sortedMap.entrySet()) {
+
+			System.out.println(entry.getValue().getLocation()
+					+ WeatherConstants.PIPE + entry.getValue().getLatitude()
+					+ WeatherConstants.COMMA + entry.getValue().getLongitude()
+					+ WeatherConstants.COMMA + entry.getValue().getElevation()
+					+ WeatherConstants.PIPE + entry.getValue().getTimeStamp() 
+					+ WeatherConstants.PIPE + entry.getValue().getCondition()
+					+ WeatherConstants.PIPE
+					+ Math.round(entry.getValue().getTemperature() * 100) / 100
+					+ WeatherConstants.PIPE
+					+ Math.round(entry.getValue().getPressure() * 100) / 100
+					+ WeatherConstants.PIPE
+					+ Math.round(entry.getValue().getHumidity() * 100) / 100);
+			;
+
 		}
 
 	}
-
 }

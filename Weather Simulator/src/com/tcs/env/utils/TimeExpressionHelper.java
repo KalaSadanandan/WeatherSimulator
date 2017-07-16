@@ -8,8 +8,7 @@ import java.util.TimeZone;
 
 
 public class TimeExpressionHelper {
-	/*private final static Logger LOGGER = LoggerFactory
-			.getLogger(TimeExpressionHelper.class);*/
+	
 	private static TimeExpressionHelper timeExpression = new TimeExpressionHelper();
 
 	/*

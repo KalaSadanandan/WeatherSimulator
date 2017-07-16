@@ -1,11 +1,8 @@
 package com.tcs.env.utils;
 
-import org.apache.log4j.Logger;
 
 public class HumidityExpressionHelper {
 
-	static Logger LOGGER = Logger.getLogger(HumidityExpressionHelper.class
-			.getName());
 	private static HumidityExpressionHelper humidityExpression = new HumidityExpressionHelper();
 
 	/*
@@ -45,18 +42,14 @@ public class HumidityExpressionHelper {
 		Double temp2 = 17.558 - temp1;
 
 		Double dewpointTemp = temp1 / temp2 + 15;
-		LOGGER.info("DewpointTemp :: " + dewpointTemp);
 
 		Double vapourPressure = 6.11 * Math.pow(10,
 				((7.5 * dewpointTemp) / (237.3 + dewpointTemp)));
-		LOGGER.info("VapourPressure :: " + vapourPressure);
 
 		Double saturatedVapouePressure = 6.11 * Math.pow(10,
 				((7.5 * temperature) / (237.3 + temperature)));
-		LOGGER.info("SaturatedVapouePressure :: " + saturatedVapouePressure);
 
 		Double humidity = vapourPressure / saturatedVapouePressure * 100;
-		LOGGER.info("Humidity :: " + humidity);
 
 		if (humidity > 100)
 			return 100.00;
