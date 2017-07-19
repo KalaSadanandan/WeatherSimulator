@@ -29,8 +29,8 @@ where temperature is in Â°C, pressure in hPa, and relative humidity as a %. Ob
 The test is designed to be relatively realistic in a variety of ways.  
 You could run the test in 2 ways:
 
- 1. Console: java -jar <jarname> <inputFile>
- 2. Eclipse
+1. Console: java -jar jarname inputFile
+2. Eclipse 
 
 ## **Input File Format**
 INFO: input file should be a comma seperated file containg following parameters.
