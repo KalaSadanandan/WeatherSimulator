@@ -6,12 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import org.apache.log4j.Logger;
-
 public class TempExpressionHelper {
-
-	static Logger LOGGER = Logger.getLogger(TempExpressionHelper.class
-			.getName());
 
 	private static TempExpressionHelper tempExpression = new TempExpressionHelper();
 
