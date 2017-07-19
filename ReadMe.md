@@ -23,6 +23,8 @@ where temperature is in Â°C, pressure in hPa, and relative humidity as a %. Ob
 >     MEL|-37.83,144.98,7|2015-12-24T15:30:55Z|Snow|-5.3|998.4|55
 >     ADL|-34.92,138.62,48|2016-01-03T12:35:37Z|Sunny|+39.4|1114.1|12
 
+WeatherSimulator program will take location(CITY&COUNTRY), position parameters (Longitude,latitude and Altitude) and Time as input (Read from a file). Based on the input, program will find out temperature, pressure, humidity and condition of a particular location at a particular time and position using respective algorithms and generate the report.
+
 
 ## **How to test**
 
